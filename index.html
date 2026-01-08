@@ -9,17 +9,25 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Shippori+Mincho:wght@500;700&display=swap"
         rel="stylesheet">
     <style>
-        /* 日系極簡風格 */
+        /* 侘寂風格 - 紙/墨/苔 */
         :root {
-            --bg: #F9F8F4;
-            /* 和紙白 */
-            --text: #464646;
-            /* 墨灰 */
-            --accent: #6D8494;
-            /* 鐵御納戶色 */
-            --selected: #EAF4FC;
-            --card: #FFFFFF;
-            --radius: 12px;
+            --bg: #F8F6F2;
+            /* 暖紙色 */
+            --text: #2A2522;
+            /* 墨茶色 */
+            --text-muted: #6F6660;
+            /* 次要文字灰茶 */
+            --accent: #5E6B60;
+            /* 灰苔綠 */
+            --border: rgba(42, 37, 34, .12);
+            /* 超淡墨線 */
+            --card: #FFFEFA;
+            /* 紙白 */
+            --radius: 8px;
+            /* 便利貼紙色 */
+            --paper-1: #FBF3E6;
+            --paper-2: #F1F3EF;
+            --paper-3: #F4EEE7;
         }
 
         body {
@@ -28,25 +36,28 @@
             font-family: 'Noto Sans TC', sans-serif;
             margin: 0;
             padding-bottom: 40px;
-            line-height: 1.7;
+            line-height: 1.85;
         }
 
         h1,
         h2 {
             font-family: 'Shippori Mincho', serif;
             text-align: center;
+            line-height: 1.3;
+            letter-spacing: 0.02em;
         }
 
         h1 {
             margin-top: 30px;
-            color: #2F3E46;
+            color: var(--text);
             font-size: 1.6rem;
         }
 
         h2 {
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 20px;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-weight: 500;
         }
 
         .container {
@@ -70,7 +81,8 @@
             background: var(--card);
             padding: 24px;
             border-radius: var(--radius);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(42, 37, 34, .04);
             margin-bottom: 20px;
         }
 
@@ -85,11 +97,12 @@
         textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #DDD;
-            border-radius: 8px;
-            background: #FAFAFA;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
             font-size: 1rem;
             box-sizing: border-box;
+            color: var(--text);
         }
 
         textarea {
@@ -97,28 +110,46 @@
             resize: none;
         }
 
-        /* 按鈕 */
+        /* 按鈕 - 霧面紙卡感 */
         .btn {
             display: block;
             width: 100%;
-            padding: 16px;
+            padding: 14px 20px;
             background: var(--accent);
-            color: #fff;
+            color: #FAFAF8;
             border: none;
-            border-radius: 30px;
+            border-radius: 6px;
             font-size: 1rem;
             cursor: pointer;
             margin-top: 15px;
+            box-shadow: 0 1px 2px rgba(42, 37, 34, .1);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn:hover {
+            transform: scale(0.98);
+            box-shadow: 0 0 0 rgba(42, 37, 34, .05);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
         }
 
         .btn:disabled {
-            background: #CCC;
+            background: rgba(42, 37, 34, .25);
+            color: rgba(255, 255, 255, .7);
+            cursor: not-allowed;
         }
 
         .btn-outline {
             background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(94, 107, 96, .06);
         }
 
         /* 作品多選 Checkbox */
@@ -126,16 +157,17 @@
             display: flex;
             align-items: center;
             padding: 15px;
-            border: 1px solid #EEE;
-            border-radius: 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             margin-bottom: 12px;
             cursor: pointer;
             transition: 0.2s;
+            background: var(--card);
         }
 
         .work-item.selected {
             border-color: var(--accent);
-            background: var(--selected);
+            background: rgba(94, 107, 96, .08);
         }
 
         .work-item input {
@@ -143,27 +175,33 @@
             transform: scale(1.2);
         }
 
-        /* 家庭多選 Chips */
+        /* 家庭多選 Chips - 印章感 */
         .chip-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .chip {
-            padding: 8px 16px;
-            border: 1px solid #DDD;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
             font-size: 0.9rem;
             cursor: pointer;
-            background: #FFF;
-            transition: 0.2s;
+            background: var(--card);
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .chip:hover {
+            border-color: var(--accent);
         }
 
         .chip.active {
-            background: var(--accent);
-            color: #FFF;
-            border-color: var(--accent);
+            background: rgba(94, 107, 96, .06);
+            color: var(--text);
+            border: 1.5px solid var(--accent);
+            font-weight: 500;
         }
 
         /* 投票統計長條圖 */
@@ -192,16 +230,17 @@
         }
 
         .bar-track {
-            background: #E8E8E8;
-            border-radius: 8px;
-            height: 24px;
+            background: rgba(42, 37, 34, .06);
+            border-radius: 6px;
+            height: 20px;
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent), #8FA8B8);
-            border-radius: 8px;
+            background: var(--accent);
+            border-radius: 5px;
             transition: width 0.6s ease;
             min-width: 2px;
         }
@@ -220,13 +259,13 @@
         }
 
         .sticky {
-            background: #FFF;
-            padding: 15px;
-            border-radius: 4px;
+            background: var(--paper-1);
+            padding: 16px;
+            border-radius: 3px;
             font-size: 0.9rem;
-            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(42, 37, 34, .06);
             cursor: pointer;
-            border-top: 3px solid #DDD;
+            border-left: 3px solid var(--border);
             /* 動畫效果 */
             opacity: 0;
             transform: translateY(20px);
@@ -235,25 +274,68 @@
 
         .sticky.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotate(0deg);
         }
 
-        .sticky:nth-child(3n+1) {
-            background: #FEF8E0;
-            border-top-color: #E6D59A;
+        /* 便利貼微旋轉 - 手貼感 */
+        .sticky:nth-child(6n+1) {
+            background: var(--paper-1);
         }
 
-        .sticky:nth-child(3n+2) {
-            background: #EAF4FC;
-            border-top-color: #AECFE8;
+        .sticky:nth-child(6n+1).visible {
+            transform: rotate(-0.3deg);
         }
 
-        .sticky:nth-child(3n+3) {
-            background: #F3ECE6;
-            border-top-color: #D6C6B6;
+        .sticky:nth-child(6n+2) {
+            background: var(--paper-2);
         }
 
-        /* Modal */
+        .sticky:nth-child(6n+2).visible {
+            transform: rotate(0.2deg);
+        }
+
+        .sticky:nth-child(6n+3) {
+            background: var(--paper-3);
+        }
+
+        .sticky:nth-child(6n+3).visible {
+            transform: rotate(-0.15deg);
+        }
+
+        .sticky:nth-child(6n+4) {
+            background: var(--paper-1);
+        }
+
+        .sticky:nth-child(6n+4).visible {
+            transform: rotate(0.35deg);
+        }
+
+        .sticky:nth-child(6n+5) {
+            background: var(--paper-2);
+        }
+
+        .sticky:nth-child(6n+5).visible {
+            transform: rotate(-0.25deg);
+        }
+
+        .sticky:nth-child(6n+6) {
+            background: var(--paper-3);
+        }
+
+        .sticky:nth-child(6n+6).visible {
+            transform: rotate(0.4deg);
+        }
+
+        /* 段落間距 */
+        .card p {
+            margin-bottom: 1.2em;
+        }
+
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Modal - 柔光紙盒 */
         .modal {
             display: none;
             position: fixed;
@@ -261,7 +343,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(42, 37, 34, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -273,11 +357,16 @@
         }
 
         .modal-content {
-            background: #FFF;
-            padding: 25px;
-            border-radius: 16px;
+            background: var(--card);
+            padding: 28px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(42, 37, 34, 0.1);
             width: 100%;
             max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-sizing: border-box;
         }
 
         .page {
@@ -562,6 +651,12 @@
 
             const requests = [];
 
+            // fetch 選項，防止重定向問題
+            const fetchOptions = {
+                method: "POST",
+                redirect: "follow"
+            };
+
             // 1. 如果還沒投過票，發送投票數據 (Votes)
             if (!hasVoted) {
                 const fd1 = new FormData();
@@ -569,7 +664,7 @@
                 fd1.append("selectedWorks", voteData.works);
                 fd1.append("age", age);
                 fd1.append("family", family);
-                requests.push(fetch(SCRIPT_URL, { method: "POST", body: fd1 }));
+                requests.push(fetch(SCRIPT_URL, { ...fetchOptions, body: fd1 }));
             }
 
             // 2. 發送回饋數據 (Feedback)
@@ -579,7 +674,7 @@
             fd2.append("content", content);
             fd2.append("age", age);
             fd2.append("family", family);
-            requests.push(fetch(SCRIPT_URL, { method: "POST", body: fd2 }));
+            requests.push(fetch(SCRIPT_URL, { ...fetchOptions, body: fd2 }));
 
             // 使用區域變數保存狀態，避免非同步問題
             const stayOnPage = isMore;
@@ -666,16 +761,31 @@
                 return;
             }
             // 複製並反轉，避免修改原始資料
-            [...data].reverse().forEach(item => {
+            [...data].reverse().forEach((item, index) => {
                 const targetName = targetNameMap[item.target] || item.target;
                 const div = document.createElement("div");
                 div.className = "sticky";
+                // 設定動畫延遲，每張便利貼差 0.05 秒
+                div.style.transitionDelay = (index * 0.05) + "s";
                 div.innerHTML = `
                     <strong style="color:#6D8494; font-size:0.85rem;">我想對 ${targetName} 的設計團隊說</strong>
                     <div style="margin-top:5px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical;">${item.content}</div>
                 `;
                 div.onclick = () => showModal({ ...item, targetName });
                 container.appendChild(div);
+            });
+
+            // 使用 Intersection Observer 偵測每張便利貼進入畫面
+            const stickyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            container.querySelectorAll('.sticky').forEach(sticky => {
+                stickyObserver.observe(sticky);
             });
         }
 
