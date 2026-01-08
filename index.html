@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>「打包一個家」防災臨時生活創新設計</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Shippori+Mincho:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 日系極簡風格 */
+        :root {
+            --bg: #F9F8F4;
+            /* 和紙白 */
+            --text: #464646;
+            /* 墨灰 */
+            --accent: #6D8494;
+            /* 鐵御納戶色 */
+            --selected: #EAF4FC;
+            --card: #FFFFFF;
+            --radius: 12px;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 0;
+            padding-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        h1,
+        h2 {
+            font-family: 'Shippori Mincho', serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+            color: #2F3E46;
+            font-size: 1.6rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 限制內容寬度以保持閱讀性（除了便利貼牆） */
+        #page-vote>h1,
+        #page-vote>.intro-text,
+        #page-vote>.card,
+        #page-vote>.btn,
+        #page-feedback>* {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #DDD;
+            border-radius: 8px;
+            background: #FAFAFA;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: none;
+        }
+
+        /* 按鈕 */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn:disabled {
+            background: #CCC;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        /* 作品多選 Checkbox */
+        .work-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #EEE;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .work-item.selected {
+            border-color: var(--accent);
+            background: var(--selected);
+        }
+
+        .work-item input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        /* 家庭多選 Chips */
+        .chip-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            border: 1px solid #DDD;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: #FFF;
+            transition: 0.2s;
+        }
+
+        .chip.active {
+            background: var(--accent);
+            color: #FFF;
+            border-color: var(--accent);
+        }
+
+        /* 投票統計長條圖 */
+        .stats-section {
+            margin: 20px 0;
+        }
+
+        .bar-item {
+            margin-bottom: 16px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .bar-label .name {
+            font-weight: 500;
+        }
+
+        .bar-label .count {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .bar-track {
+            background: #E8E8E8;
+            border-radius: 8px;
+            height: 24px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #8FA8B8);
+            border-radius: 8px;
+            transition: width 0.6s ease;
+            min-width: 2px;
+        }
+
+        /* 便利貼牆 */
+        .wall-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .wall-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .sticky {
+            background: #FFF;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            border-top: 3px solid #DDD;
+            /* 動畫效果 */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .sticky.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sticky:nth-child(3n+1) {
+            background: #FEF8E0;
+            border-top-color: #E6D59A;
+        }
+
+        .sticky:nth-child(3n+2) {
+            background: #EAF4FC;
+            border-top-color: #AECFE8;
+        }
+
+        .sticky:nth-child(3n+3) {
+            background: #F3ECE6;
+            border-top-color: #D6C6B6;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 99;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #FFF;
+            padding: 25px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div id="page-vote" class="page active">
+            <h1>「打包一個家」防災臨時生活創新設計</h1>
+            <div class="intro-text"
+                style="margin-bottom: 30px; line-height: 1.8; text-align: justify; color: #555; font-size: 0.95rem;">
+                <p style="margin-bottom: 15px;">
+                    「打包一個家」是富迪印刷自2022啟動的永續計畫，運用集團包裝結構設計與材質創新的實力，投入於具永續價值的社會議題中。今年我們的設計團隊與製造生產線，正在協助災後避難收容過程中，能有更安全、安心、易用的安置工具。
+                </p>
+                <p>我們相信跨領域的協作始能激發創新，因此在這個階段，期待能邀請你成為產品測試的一員，藉由你的自身經驗協助團隊了解使用者對於目前產品的觀點。</p>
+            </div>
+            <div class="card">
+                <p>請參觀四項作品，試想在緊急災難時刻，你會想用哪一個呢？（可多選）</p>
+                <div id="works-list">
+                    <label class="work-item" onclick="toggleStyle(this)">
+                        <input type="checkbox" name="work" value="Taipei1">
+                        <span>助眠罩：避難時的遮光好眠設計</span>
+                    </label>
+                    <label class="work-item" onclick="toggleStyle(this)">
+                        <input type="checkbox" name="work" value="Taipei2">
+                        <span>靜心屏：在緊急避難環境劃出一隅私人空間</span>
+                    </label>
+                    <label class="work-item" onclick="toggleStyle(this)">
+                        <input type="checkbox" name="work" value="Suzhou1">
+                        <span>緊急避難應變嬰兒床：孩童與毛孩避難時的安心角落</span>
+                    </label>
+                    <label class="work-item" onclick="toggleStyle(this)">
+                        <input type="checkbox" name="work" value="Suzhou2">
+                        <span>模組化避難家具：單一元件組裝成百變家具</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn" onclick="goStep2()">下一步：填寫回饋</button>
+
+            <hr style="border:0; border-top:1px solid #EEE; margin:40px 0;">
+
+            <h2>目前票選情況</h2>
+            <div id="stats-container" class="stats-section">
+                <div style="text-align:center; color:#999; padding: 20px;">統計載入中...</div>
+            </div>
+
+            <hr style="border:0; border-top:1px solid #EEE; margin:40px 0;">
+
+            <h2>大家的回饋</h2>
+            <div id="wall-container" class="wall-grid">
+                <div style="text-align:center; grid-column: 1 / -1; color:#999; padding: 20px;">載入中...</div>
+            </div>
+        </div>
+
+        <div id="page-feedback" class="page">
+            <h2>想和設計團隊說什麼呢？</h2>
+
+            <div class="card">
+                <label>您的年齡區間</label>
+                <select id="input-age">
+                    <option value="">請選擇</option>
+                    <option value="18歲以下">18歲以下</option>
+                    <option value="19-29歲">19-29歲</option>
+                    <option value="30-39歲">30-39歲</option>
+                    <option value="40-49歲">40-49歲</option>
+                    <option value="50-64歲">50-64歲</option>
+                    <option value="65歲以上">65歲以上</option>
+                </select>
+
+                <label>您家裡有哪些成員？（可多選）</label>
+                <div class="chip-group" id="family-group">
+                    <div class="chip" onclick="toggleChip(this)" data-val="Single">只有我自己</div>
+                    <div class="chip" onclick="toggleChip(this)" data-val="Partner">有伴侶</div>
+                    <div class="chip" onclick="toggleChip(this)" data-val="Baby">有嬰孩</div>
+                    <div class="chip" onclick="toggleChip(this)" data-val="Pet">有毛孩</div>
+                    <div class="chip" onclick="toggleChip(this)" data-val="Elderly">有年長者</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <label>你想對哪一個設計團隊說呢？</label>
+                <select id="input-target">
+                    <option value="Taipei1">助眠罩：避難時的遮光好眠設計</option>
+                    <option value="Taipei2">靜心屏：在緊急避難環境劃出一隅私人空間</option>
+                    <option value="Suzhou1">緊急避難應變嬰兒床：孩童與毛孩避難時的安心角落</option>
+                    <option value="Suzhou2">模組化避難家具：單一元件組裝成百變家具</option>
+                </select>
+
+                <label>我想告訴設計團隊...</label>
+                <textarea id="input-content" placeholder="請輸入你的經驗或修正建議..."></textarea>
+            </div>
+
+            <button type="button" id="btn-submit" class="btn" onclick="submitData(false)">送出，看大家回饋</button>
+            <button type="button" id="btn-more" class="btn btn-outline" onclick="submitData(true)">送出，再寫一張</button>
+        </div>
+
+    </div>
+
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 id="m-target" style="margin-top:0;"></h3>
+            <p id="m-meta" style="color:#888; font-size:0.9rem;"></p>
+            <hr style="border:0; border-top:1px solid #EEE; margin:15px 0;">
+            <p id="m-text" style="white-space: pre-wrap;"></p>
+            <button class="btn btn-outline" onclick="closeModal()">關閉</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 請替換成你部署後的 Web App URL
+        // ==========================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzlkkoiLozWBEJYNuraISxy5pZakk7pJhLyLHTgWcB_oJZZqFdBjuwPhz1CNdz9OMoO/exec";
+
+        let voteData = { works: [] };
+        let hasVoted = false;
+
+        // 產品名稱對照表
+        const targetNameMap = {
+            "Taipei1": "助眠罩",
+            "Taipei2": "靜心屏",
+            "Suzhou1": "避難嬰兒床",
+            "Suzhou2": "模組化避難家具"
+        };
+
+        // 初始化：載入便利貼牆和統計數據
+        window.onload = function () {
+            loadWall();
+            loadStats();
+
+            // 如果有 page=wall 參數，可以考慮自動滾動到牆的位置 (可選)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('page') === 'wall') {
+                const wall = document.getElementById("wall-container");
+                if (wall) wall.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        // 讀取投票統計
+        function loadStats() {
+            const container = document.getElementById("stats-container");
+
+            fetch(SCRIPT_URL + "?action=stats")
+                .then(res => res.json())
+                .then(json => {
+                    if (json.result !== "success" || !json.data) {
+                        container.innerHTML = "<p style='text-align:center; color:#999;'>暫無統計資料</p>";
+                        return;
+                    }
+
+                    const data = json.data;
+                    const items = [
+                        { key: "Taipei1", name: targetNameMap["Taipei1"], count: data.Taipei1 || 0 },
+                        { key: "Taipei2", name: targetNameMap["Taipei2"], count: data.Taipei2 || 0 },
+                        { key: "Suzhou1", name: targetNameMap["Suzhou1"], count: data.Suzhou1 || 0 },
+                        { key: "Suzhou2", name: targetNameMap["Suzhou2"], count: data.Suzhou2 || 0 }
+                    ];
+
+                    // 找出最大值來計算百分比
+                    const maxCount = Math.max(...items.map(i => i.count), 1);
+
+                    // 先用 width: 0 渲染，之後再動畫
+                    container.innerHTML = items.map((item, index) => {
+                        const percent = (item.count / maxCount) * 100;
+                        return `
+                            <div class="bar-item">
+                                <div class="bar-label">
+                                    <span class="name">${item.name}</span>
+                                    <span class="count">${item.count} 票</span>
+                                </div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" data-percent="${percent}" style="width: 0%; transition-delay: ${index * 0.1}s;"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
+
+                    // 使用 Intersection Observer 偵測滾動進入畫面
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                // 進入畫面時觸發動畫
+                                container.querySelectorAll('.bar-fill').forEach(bar => {
+                                    const percent = bar.getAttribute('data-percent');
+                                    bar.style.width = percent + '%';
+                                });
+                                observer.disconnect(); // 只執行一次
+                            }
+                        });
+                    }, { threshold: 0.3 });
+
+                    observer.observe(container);
+                })
+                .catch(err => {
+                    console.error("Stats fetch error:", err);
+                    container.innerHTML = "<p style='text-align:center; color:#999;'>統計載入失敗</p>";
+                });
+        }
+
+        // UI 互動：作品勾選
+        function toggleStyle(label) {
+            setTimeout(() => {
+                const chk = label.querySelector("input");
+                label.classList.toggle("selected", chk.checked);
+            }, 10);
+        }
+
+        // UI 互動：家庭標籤 (Chips)
+        function toggleChip(el) {
+            el.classList.toggle("active");
+        }
+
+        // 步驟 1 -> 步驟 2
+        function goStep2() {
+            const checked = document.querySelectorAll('input[name="work"]:checked');
+            if (checked.length === 0) { alert("請至少選擇一項產品"); return; }
+
+            voteData.works = Array.from(checked).map(c => c.value).join(","); // 結果如 "Taipei1,Suzhou2"
+
+            document.getElementById("page-vote").classList.remove("active");
+            document.getElementById("page-feedback").classList.add("active");
+            window.scrollTo(0, 0);
+        }
+
+        // 送出資料
+        function submitData(isMore) {
+            const age = document.getElementById("input-age").value;
+            const target = document.getElementById("input-target").value;
+            const content = document.getElementById("input-content").value;
+
+            // 收集家庭標籤 (Chips)
+            const familyChips = document.querySelectorAll('#family-group .chip.active');
+            const family = Array.from(familyChips).map(c => c.dataset.val).join(",");
+
+            if (!age) { alert("請選擇年齡"); return; }
+            if (!content) { alert("請跟設計團隊說說話"); return; }
+
+            const btn1 = document.getElementById("btn-submit");
+            const btn2 = document.getElementById("btn-more");
+
+            // 傳送時的統一樣式：灰底、白字、無邊框
+            const disabledStyle = { background: '#CCC', color: '#fff', border: 'none' };
+
+            // 根據點擊的按鈕顯示傳送狀態
+            if (isMore) {
+                btn2.innerText = "傳送中...";
+            } else {
+                btn1.innerText = "傳送中...";
+            }
+
+            // 兩個按鈕都套用 disabled 樣式
+            btn1.style.background = disabledStyle.background;
+            btn1.style.color = disabledStyle.color;
+            btn1.style.border = disabledStyle.border;
+            btn2.style.background = disabledStyle.background;
+            btn2.style.color = disabledStyle.color;
+            btn2.style.border = disabledStyle.border;
+
+            btn1.disabled = true; btn2.disabled = true;
+
+            const requests = [];
+
+            // 1. 如果還沒投過票，發送投票數據 (Votes)
+            if (!hasVoted) {
+                const fd1 = new FormData();
+                fd1.append("action", "vote");
+                fd1.append("selectedWorks", voteData.works);
+                fd1.append("age", age);
+                fd1.append("family", family);
+                requests.push(fetch(SCRIPT_URL, { method: "POST", body: fd1 }));
+            }
+
+            // 2. 發送回饋數據 (Feedback)
+            const fd2 = new FormData();
+            fd2.append("action", "feedback");
+            fd2.append("target", target);
+            fd2.append("content", content);
+            fd2.append("age", age);
+            fd2.append("family", family);
+            requests.push(fetch(SCRIPT_URL, { method: "POST", body: fd2 }));
+
+            // 使用區域變數保存狀態，避免非同步問題
+            const stayOnPage = isMore;
+
+            Promise.all(requests).then(() => {
+                hasVoted = true;
+
+                // 恢復按鈕樣式的輔助函式
+                function restoreButtonStyles() {
+                    btn1.disabled = false;
+                    btn2.disabled = false;
+                    // 清除所有 inline style，讓 CSS class 生效
+                    btn1.style.background = "";
+                    btn1.style.color = "";
+                    btn1.style.border = "";
+                    btn2.style.background = "";
+                    btn2.style.color = "";
+                    btn2.style.border = "";
+                    btn1.innerText = "送出，看大家回饋";
+                    btn2.innerText = "送出，再寫一張";
+                }
+
+                if (stayOnPage) {
+                    // 再寫一張：清空內容，保留個人資料
+                    document.getElementById("input-content").value = "";
+                    document.getElementById("input-content").focus();
+
+                    // 先恢復按鈕
+                    restoreButtonStyles();
+
+                    // 按鈕文字提示（2秒後恢復）
+                    btn2.innerText = "送出成功，請繼續填寫";
+                    setTimeout(() => {
+                        btn2.innerText = "送出，再寫一張";
+                    }, 2000);
+                } else {
+                    // 回到首頁並滾動到牆
+                    document.getElementById("page-feedback").classList.remove("active");
+                    document.getElementById("page-vote").classList.add("active");
+
+                    // Reset VOTE Page
+                    voteData.works = [];
+                    hasVoted = false;
+                    document.querySelectorAll('input[name="work"]').forEach(chk => {
+                        chk.checked = false;
+                        chk.parentElement.classList.remove("selected");
+                    });
+
+                    // Reset FEEDBACK Page（清空回饋表單）
+                    document.getElementById("input-age").value = "";
+                    document.getElementById("input-content").value = "";
+                    document.getElementById("input-target").value = "Taipei1";
+                    document.querySelectorAll('#family-group .chip').forEach(chip => {
+                        chip.classList.remove("active");
+                    });
+
+                    // 恢復按鈕樣式
+                    restoreButtonStyles();
+
+                    loadWall();
+                    setTimeout(() => {
+                        const wallSection = document.querySelector("#page-vote h2");
+                        if (wallSection) wallSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+            }).catch(err => {
+                console.error(err);
+                alert("連線錯誤，請重試");
+                btn1.disabled = false; btn2.disabled = false;
+                btn1.style.background = ""; btn1.style.color = ""; btn1.style.border = "";
+                btn2.style.background = ""; btn2.style.color = ""; btn2.style.border = "";
+                btn1.innerText = "送出，看大家回饋";
+                btn2.innerText = "送出，再寫一張";
+            });
+        }
+
+        // 讀取便利貼牆（帶本地快取）
+        const WALL_CACHE_KEY = 'wallDataCache';
+
+        function renderWallItems(data, container) {
+            container.innerHTML = "";
+            if (!data || data.length === 0) {
+                container.innerHTML = "<p style='grid-column:span 2; text-align:center'>暫無留言</p>";
+                return;
+            }
+            // 複製並反轉，避免修改原始資料
+            [...data].reverse().forEach(item => {
+                const targetName = targetNameMap[item.target] || item.target;
+                const div = document.createElement("div");
+                div.className = "sticky";
+                div.innerHTML = `
+                    <strong style="color:#6D8494; font-size:0.85rem;">我想對 ${targetName} 的設計團隊說</strong>
+                    <div style="margin-top:5px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical;">${item.content}</div>
+                `;
+                div.onclick = () => showModal({ ...item, targetName });
+                container.appendChild(div);
+            });
+        }
+
+        function loadWall() {
+            const container = document.getElementById("wall-container");
+
+            // 1. 先嘗試從快取讀取並顯示
+            try {
+                const cached = localStorage.getItem(WALL_CACHE_KEY);
+                if (cached) {
+                    const cachedData = JSON.parse(cached);
+                    renderWallItems(cachedData, container);
+                }
+            } catch (e) {
+                console.warn("Cache read error:", e);
+            }
+
+            // 如果沒有快取，顯示載入中
+            if (container.children.length === 0) {
+                container.innerHTML = "<div style='text-align:center; grid-column: 1 / -1; color:#999; padding: 20px;'>便利貼讀取中...</div>";
+            }
+
+            // 2. 在背景抓取最新資料
+            fetch(SCRIPT_URL + "?action=read")
+                .then(res => {
+                    if (!res.ok) throw new Error("Network response was not ok");
+                    return res.json();
+                })
+                .then(json => {
+                    // 3. 更新畫面
+                    renderWallItems(json.data, container);
+
+                    // 4. 儲存到快取
+                    try {
+                        localStorage.setItem(WALL_CACHE_KEY, JSON.stringify(json.data));
+                    } catch (e) {
+                        console.warn("Cache write error:", e);
+                    }
+                })
+                .catch(err => {
+                    console.error("Fetch error:", err);
+                    // 如果有快取資料就不顯示錯誤（已經顯示了快取）
+                    if (container.children.length === 0 || container.querySelector('.sticky') === null) {
+                        container.innerHTML = `<div style='grid-column: 1 / -1; text-align:center; color:red; padding:20px;'>
+                            讀取失敗<br>
+                            <small style="color:#666">${err.message}</small><br>
+                            <button type="button" class="btn btn-outline" onclick="loadWall()" style="margin-top:10px; width:auto; display:inline-block; padding: 8px 16px;">重試</button>
+                        </div>`;
+                    }
+                });
+        }
+
+        function showModal(item) {
+            const targetName = item.targetName || targetNameMap[item.target] || item.target;
+            document.getElementById("m-target").innerText = "我想對 " + targetName + " 的設計團隊說";
+            // document.getElementById("m-meta").innerText = `${item.age} / ${item.family}`; // 隱藏個資
+            document.getElementById("m-text").innerText = item.content;
+            document.getElementById("modal").classList.add("show");
+        }
+        function closeModal() { document.getElementById("modal").classList.remove("show"); }
+    </script>
+
+</body>
+
+</html>
