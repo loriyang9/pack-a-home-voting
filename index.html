@@ -243,6 +243,8 @@
             border-radius: 5px;
             transition: width 0.6s ease;
             min-width: 2px;
+            width: 0%;
+            transition-delay: var(--delay, 0s);
         }
 
         /* 便利貼牆 */
@@ -583,6 +585,30 @@
             "Suzhou2": "模組化避難家具"
         };
 
+        // API 請求封裝：確保 HTTP 成功且 JSON result 為 success
+        async function fetchJsonOrThrow(url, options) {
+            const res = await fetch(url, options);
+
+            // Apps Script 有時候 content-type 不漂亮，先用 text 再自己 parse
+            const text = await res.text();
+
+            let json = null;
+            try { json = JSON.parse(text); } catch (e) { }
+
+            // 1) HTTP 層失敗（例如 404/500）
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+
+            // 2) 有 JSON 而且後端用 result 表達成功/失敗
+            if (json && typeof json === "object" && "result" in json && json.result !== "success") {
+                throw new Error(json.message || "Server returned failure");
+            }
+
+            // 3) 有 JSON 就回 JSON，沒有就回文字
+            return json ?? text;
+        }
+
         // 初始化：載入便利貼牆和統計數據
         window.onload = function () {
             loadWall();
@@ -597,64 +623,61 @@
         };
 
         // 讀取投票統計
-        function loadStats() {
+        async function loadStats() {
             const container = document.getElementById("stats-container");
+            try {
+                const json = await fetchJsonOrThrow(SCRIPT_URL + "?action=stats");
+                if (json.result !== "success" || !json.data) {
+                    container.innerHTML = "<p class='center-hint'>暫無統計資料</p>";
+                    return;
+                }
 
-            fetch(SCRIPT_URL + "?action=stats")
-                .then(res => res.json())
-                .then(json => {
-                    if (json.result !== "success" || !json.data) {
-                        container.innerHTML = "<p class='center-hint'>暫無統計資料</p>";
-                        return;
-                    }
+                const data = json.data;
+                const items = [
+                    { key: "Taipei1", name: targetNameMap["Taipei1"], count: data.Taipei1 || 0 },
+                    { key: "Taipei2", name: targetNameMap["Taipei2"], count: data.Taipei2 || 0 },
+                    { key: "Suzhou1", name: targetNameMap["Suzhou1"], count: data.Suzhou1 || 0 },
+                    { key: "Suzhou2", name: targetNameMap["Suzhou2"], count: data.Suzhou2 || 0 }
+                ];
 
-                    const data = json.data;
-                    const items = [
-                        { key: "Taipei1", name: targetNameMap["Taipei1"], count: data.Taipei1 || 0 },
-                        { key: "Taipei2", name: targetNameMap["Taipei2"], count: data.Taipei2 || 0 },
-                        { key: "Suzhou1", name: targetNameMap["Suzhou1"], count: data.Suzhou1 || 0 },
-                        { key: "Suzhou2", name: targetNameMap["Suzhou2"], count: data.Suzhou2 || 0 }
-                    ];
+                // 找出最大值來計算百分比
+                const maxCount = Math.max(...items.map(i => i.count), 1);
 
-                    // 找出最大值來計算百分比
-                    const maxCount = Math.max(...items.map(i => i.count), 1);
-
-                    // 先用 width: 0 渲染，之後再動畫
-                    container.innerHTML = items.map((item, index) => {
-                        const percent = (item.count / maxCount) * 100;
-                        return `
+                // 先用 width: 0 渲染，之後再動畫
+                container.innerHTML = items.map((item, index) => {
+                    const percent = (item.count / maxCount) * 100;
+                    return `
                             <div class="bar-item">
                                 <div class="bar-label">
                                     <span class="name">${item.name}</span>
                                     <span class="count">${item.count} 票</span>
                                 </div>
                                 <div class="bar-track">
-                                    <div class="bar-fill" data-percent="${percent}" style="width: 0%; transition-delay: ${index * 0.1}s;"></div>
+                                    <div class="bar-fill" data-percent="${percent}" style="--delay: ${index * 0.1}s;"></div>
                                 </div>
                             </div>
                         `;
-                    }).join("");
+                }).join("");
 
-                    // 使用 Intersection Observer 偵測滾動進入畫面
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                // 進入畫面時觸發動畫
-                                container.querySelectorAll('.bar-fill').forEach(bar => {
-                                    const percent = bar.getAttribute('data-percent');
-                                    bar.style.width = percent + '%';
-                                });
-                                observer.disconnect(); // 只執行一次
-                            }
-                        });
-                    }, { threshold: 0.3 });
+                // 使用 Intersection Observer 偵測滾動進入畫面
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // 進入畫面時觸發動畫
+                            container.querySelectorAll('.bar-fill').forEach(bar => {
+                                const percent = bar.getAttribute('data-percent');
+                                bar.style.width = percent + '%';
+                            });
+                            observer.disconnect(); // 只執行一次
+                        }
+                    });
+                }, { threshold: 0.3 });
 
-                    observer.observe(container);
-                })
-                .catch(err => {
-                    console.error("Stats fetch error:", err);
-                    container.innerHTML = "<p class='center-hint'>統計載入失敗</p>";
-                });
+                observer.observe(container);
+            } catch (err) {
+                console.error("Stats fetch error:", err);
+                container.innerHTML = "<p class='center-hint'>統計載入失敗</p>";
+            }
         }
 
         // UI 互動：作品勾選
@@ -683,8 +706,29 @@
         }
 
         // 送出資料
-        function submitData(evt, isMore) {
-            if (evt) evt.preventDefault(); // 防止可能的頁面刷新或預設行為
+        function submitData(arg1, arg2) {
+            // Robust argument handling
+            let evt = null;
+            let isMore = false;
+
+            // Check if first arg is an Event object (has preventDefault)
+            if (arg1 && typeof arg1.preventDefault === 'function') {
+                evt = arg1;
+                isMore = arg2;
+            } else {
+                // Legacy support or argument mismatch
+                isMore = arg1;
+            }
+
+            if (evt) evt.preventDefault(); // Stop form submission / reload
+
+            // Double check: if explicit button ID is found, trust it
+            if (evt && evt.currentTarget && evt.currentTarget.id === "btn-more") {
+                isMore = true;
+            } else if (evt && evt.currentTarget && evt.currentTarget.id === "btn-submit") {
+                isMore = false;
+            }
+
             const age = document.getElementById("input-age").value;
             const target = document.getElementById("input-target").value;
             const content = document.getElementById("input-content").value;
@@ -734,7 +778,7 @@
                 fd1.append("selectedWorks", voteData.works);
                 fd1.append("age", age);
                 fd1.append("family", family);
-                requests.push(fetch(SCRIPT_URL, { ...fetchOptions, body: fd1 }));
+                requests.push(fetchJsonOrThrow(SCRIPT_URL, { ...fetchOptions, body: fd1 }));
             }
 
             // 2. 發送回饋數據 (Feedback)
@@ -744,12 +788,12 @@
             fd2.append("content", content);
             fd2.append("age", age);
             fd2.append("family", family);
-            requests.push(fetch(SCRIPT_URL, { ...fetchOptions, body: fd2 }));
+            requests.push(fetchJsonOrThrow(SCRIPT_URL, { ...fetchOptions, body: fd2 }));
 
             // 使用區域變數保存狀態，避免非同步問題
             const stayOnPage = isMore;
 
-            Promise.all(requests).then(() => {
+            Promise.all(requests).then((results) => {
                 hasVoted = true;
 
                 // 恢復按鈕樣式的輔助函式
@@ -837,10 +881,18 @@
                 div.className = "sticky";
                 // 設定動畫延遲，每張便利貼差 0.05 秒
                 div.style.transitionDelay = (index * 0.05) + "s";
-                div.innerHTML = `
-                    <strong class="sticky-title">我想對 ${targetName} 的設計團隊說</strong>
-                    <div class="sticky-preview">${item.content}</div>
-                `;
+
+                const title = document.createElement("strong");
+                title.className = "sticky-title";
+                title.textContent = `我想對 ${targetName} 的設計團隊說`;
+
+                const preview = document.createElement("div");
+                preview.className = "sticky-preview";
+                preview.textContent = item.content ?? ""; // 關鍵：永遠用 textContent
+
+                div.appendChild(title);
+                div.appendChild(preview);
+
                 div.onclick = () => showModal({ ...item, targetName });
                 container.appendChild(div);
             });
@@ -879,12 +931,9 @@
             }
 
             // 2. 在背景抓取最新資料
-            fetch(SCRIPT_URL + "?action=read")
-                .then(res => {
-                    if (!res.ok) throw new Error("Network response was not ok");
-                    return res.json();
-                })
+            fetchJsonOrThrow(SCRIPT_URL + "?action=read")
                 .then(json => {
+                    if (!json || !json.data) throw new Error("No data");
                     // 3. 更新畫面
                     renderWallItems(json.data, container);
 
