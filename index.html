@@ -460,12 +460,512 @@
             -webkit-line-clamp: 6;
             -webkit-box-orient: vertical;
         }
+
+        /* 產品介紹頁特定樣式 */
+        #page-products {
+            padding-bottom: 60px;
+        }
+
+        .product-section {
+            margin-bottom: 80px;
+            scroll-margin-top: 20px;
+        }
+
+        .product-header {
+            margin-bottom: 24px;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            color: var(--text);
+            margin: 0 0 8px 0;
+            font-family: 'Shippori Mincho', serif;
+        }
+
+        .product-subtitle {
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            max-height: 100vh;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 20px;
+            font-size: 0.95rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .info-content {
+            color: var(--text);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .feature-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .feature-item {
+            background: rgba(94, 107, 96, .05);
+            padding: 12px 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .feature-title {
+            display: block;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .feature-desc {
+            display: block;
+            text-align: left;
+        }
+
+        .back-nav {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Side-by-Side Product Layout */
+        @media (min-width: 900px) {
+            .product-section {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                /* align-items: stretch; is default, which we want */
+            }
+
+            .product-header {
+                grid-column: 1 / -1;
+                /* Title spans full width */
+                margin-bottom: 24px;
+            }
+
+            .product-image-container {
+                margin-bottom: 0;
+                position: relative;
+                /* Container matches row height (from card) */
+                height: auto;
+                /* Allow it to be sized by grid stretch */
+            }
+
+            /* Adjust image height for side-by-side view */
+            .product-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                max-height: none;
+                object-fit: cover;
+                transition: opacity 0.3s ease;
+            }
+
+            .product-image.real-photo {
+                opacity: 0;
+                /* Hidden by default */
+                z-index: 2;
+                /* On top of sketch */
+            }
+
+            /* Desktop Hover or JS class */
+            .product-image-container:hover .product-image.real-photo,
+            .product-image-container.show-real .product-image.real-photo {
+                opacity: 1;
+                /* Show on hover or class */
+            }
+
+            .product-image-container:hover .product-image:not(.real-photo),
+            .product-image-container.show-real .product-image:not(.real-photo) {
+                opacity: 0;
+                /* Hide sketch on hover or class */
+            }
+
+        }
+
+        /* Mobile/Tablet */
+        @media (max-width: 899px) {
+            .product-image-container {
+                position: relative;
+                padding-bottom: 0;
+                height: auto;
+                overflow: visible;
+                /* Remove :active behavior, rely on JS */
+            }
+
+            .product-image {
+                /* Reset position for natural flow logic */
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+                /* Ensure full image is seen */
+                transition: opacity 0.3s ease;
+                display: block;
+            }
+
+            /* Sketch drives the layout height */
+            .product-image:not(.real-photo) {
+                position: relative;
+            }
+
+            /* Real photo overlays the sketch */
+            .product-image.real-photo {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                /* Match height of sketch */
+                opacity: 0;
+                z-index: 2;
+            }
+
+            /* JS Toggled State */
+            .product-image-container.show-real .product-image.real-photo {
+                opacity: 1;
+            }
+
+            .product-image-container.show-real .product-image:not(.real-photo) {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div class="container">
+
+        <!-- 產品介紹頁 (預設隱藏) -->
+        <div id="page-products" class="page">
+            <div class="back-nav">
+                <button class="btn btn-outline" onclick="backToVote()" style="width: auto; padding: 8px 16px;">
+                    ← 前往投票
+                </button>
+            </div>
+
+            <!-- 復刻首頁標題區 -->
+            <h1>「打包一個家」防災臨時生活創新設計</h1>
+            <div class="intro-text" style="text-align: center;">
+                <p>請參觀本屆參選的四項作品，試想在緊急災難時刻，你會希望避難時能使用到哪項作品呢？</p>
+            </div>
+
+            <hr class="divider">
+
+            <!-- 產品 1 -->
+            <div class="product-section" id="prod-taipei1">
+                <div class="product-header">
+                    <h3 class="product-title">助眠罩</h3>
+                    <div class="product-subtitle">避難時的遮光好眠設計</div>
+                </div>
+                <!-- Carousel Container -->
+                <div class="product-image-container" id="carousel-taipei1">
+                    <!-- Default Sketch -->
+                    <img src="Pic/prod_taipei1.jpg" alt="助眠罩產品圖 (素描)" class="product-image">
+                    <!-- Hover Real Photo -->
+                    <img src="Pic/prod_taipei1_real.jpg" alt="助眠罩實體圖" class="product-image real-photo">
+                </div>
+
+                <div class="card">
+                    <div class="info-grid">
+                        <div>
+                            <span class="info-label">設計師</span>
+                            <div class="info-content">張幻柔、張蓴、莊進發</div>
+                        </div>
+                        <div>
+                            <span class="info-label">現況問題</span>
+                            <div class="info-content" style="white-space: normal;">
+                                <ol style="padding-left: 20px; margin: 0;">
+                                    <li>高敏人在睡眠時需要密閉且完全遮蔽光線的空間</li>
+                                    <li>睡眠時的隱密性</li>
+                                    <li>光線太強影響休息</li>
+                                    <li>可調節光線強弱</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="info-label">設計特點</span>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <div class="feature-title">特點1 手提把</div>
+                                    <div class="feature-desc">可使用左右兩側提把移動，不使用時可以將紙板蓋上遮擋光線。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點2 透氣孔</div>
+                                    <div class="feature-desc">後側透氣孔可依照喜好需求掀開，始內部透氣。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點3 牛皮紙遮光罩</div>
+                                    <div class="feature-desc">上蓋使用牛皮紙材質，達到輕量化，輕鬆掀開坐起身或躺下動作。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點4 光線調節</div>
+                                    <div class="feature-desc">上蓋牛皮紙內部有滑動圓孔，可以依照喜好做光線強弱的控制。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點5 隱密舒適無壓迫感</div>
+                                    <div class="feature-desc">依照人體工學量測設計，提供高敏人或對光線敏感者一個舒適的休息空間。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點6 攤平運輸</div>
+                                    <div class="feature-desc">壓線設計，讓整個產品可以攤平，利於存放和運輸。</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- 產品 2 -->
+            <div class="product-section" id="prod-taipei2">
+                <div class="product-header">
+                    <h3 class="product-title">靜心屏</h3>
+                    <div class="product-subtitle">在緊急避難環境劃出一隅私人空間</div>
+                </div>
+                <!-- Carousel Container -->
+                <!-- Carousel Container -->
+                <div class="product-image-container" id="carousel-taipei2">
+                    <img src="Pic/prod_taipei2.jpg" alt="靜心屏產品圖 (素描)" class="product-image">
+                    <img src="Pic/prod_taipei2_real.jpg" alt="靜心屏實體圖" class="product-image real-photo">
+                </div>
+
+                <div class="card">
+                    <div class="info-grid">
+                        <div>
+                            <span class="info-label">設計師</span>
+                            <div class="info-content">吳致勳、王昭怡、黃千峻</div>
+                        </div>
+                        <div>
+                            <span class="info-label">現況問題</span>
+                            <div class="info-content" style="white-space: normal;">
+                                <ol style="padding-left: 20px; margin: 0;">
+                                    <li>毫無隱私：臨時安置的開放式空間無法滿足更衣、哺乳與個人生理行為所需的基本遮蔽，影響使用者的尊嚴與身體舒適度，亦可能使人因被迫暴露於他人視線中而產生壓力、焦慮或自我壓抑的行為。
+                                    </li>
+                                    <li>心神不寧：高密度共處與持續的感官刺激，使部分使用者（包含一般大眾與心智障礙者）難以調節情緒，迫切需要一個可短暫獨處、穩定心理狀態的個人空間。</li>
+                                    <li>恐慌蔓延：當民眾因突發刺激在開放安置空間中出現情緒失控行為時，缺乏即時安撫與隔離空間，容易使不安情緒暴露並擴散，影響周遭民眾的心理安全與整體空間秩序。</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="info-label">設計特點</span>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <div class="feature-title">特點1 全遮擋</div>
+                                    <div class="feature-desc">阻擋極大部分縫隙</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點2 多元組合</div>
+                                    <div class="feature-desc">依照想要組裝的尺寸自由拼接</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點3 攤平收納</div>
+                                    <div class="feature-desc">每個零件皆可攤平收納</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點4 快速組裝</div>
+                                    <div class="feature-desc">在熟悉操作後可以在短時間內組裝完成</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點5 紙卡扣鎖的門</div>
+                                    <div class="feature-desc">防呆設計僅能從內部上鎖</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點6 天花板</div>
+                                    <div class="feature-desc">可調整透光度的天花板</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- 產品 3 -->
+            <div class="product-section" id="prod-suzhou1">
+                <div class="product-header">
+                    <h3 class="product-title">緊急避難應變嬰兒床</h3>
+                    <div class="product-subtitle">孩童與毛孩避難時的安心角落</div>
+                </div>
+                <!-- Carousel Container -->
+                <!-- Carousel Container -->
+                <div class="product-image-container" id="carousel-suzhou1">
+                    <img src="Pic/prod_suzhou1.jpg" alt="避難嬰兒床產品圖 (素描)" class="product-image">
+                    <img src="Pic/prod_suzhou1_real.jpg" alt="避難嬰兒床實體圖" class="product-image real-photo">
+                </div>
+
+                <div class="card">
+                    <div class="info-grid">
+                        <div>
+                            <span class="info-label">設計師</span>
+                            <div class="info-content">宋永波、李風利、劉晨</div>
+                        </div>
+                        <div>
+                            <span class="info-label">現況問題</span>
+                            <div class="info-content" style="white-space: normal;">
+                                <ol style="padding-left: 20px; margin: 0;">
+                                    <li>帶著嬰兒和毛孩的家長不知道如何安置嬰兒和寵物</li>
+                                    <li>救援運輸紙箱，到現場後，一般都是廢紙，如何再利用給嬰兒和毛孩使用。</li>
+                                    <li>嬰兒安置的嬰兒床和寵物臨時安置籠子如何簡單快速成型</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="info-label">設計特點</span>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <div class="feature-title">特點1 運輸箱</div>
+                                    <div class="feature-desc">
+                                        尺寸700*500*400mm，全封閉運輸箱，可以整合嬰兒短期需要的用品和食物。可以運輸其他用品。箱子2邊有手提孔可以拆開，雙手更好的搬運箱子</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點2 150mm嬰兒床</div>
+                                    <div class="feature-desc">
+                                        箱子裡面的折疊墊輕鬆打開後，墊在下面將床抬高150mm，阻斷了地面的髒汙直接接觸嬰兒。嬰兒床兩邊也有兩個新的把手，當床的時候也很好拿取</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點3 0mm嬰兒床</div>
+                                    <div class="feature-desc">將折疊墊拿出來，再把紙板往裡對折行成新的無高度嬰兒床-特點是：還保留150mm高度側面，保護嬰兒睡著後不會翻滾出來
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點4 寵物臨時安置籠</div>
+                                    <div class="feature-desc">將箱子的5個帶孔卡片往裡一按，就會出現5個透氣孔，箱子2邊有卡扣，可以卡住10kg以內的動物臨時不能跑出來
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點5 嬰兒臨時玩具</div>
+                                    <div class="feature-desc">箱子的5個透氣孔的卡片掉下來後，可以用繩子串起來掛在嬰兒床上當轉移視線的玩具。卡片形狀各異，有小熊小貓小狗等
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點6 救災結束後當寵物窩</div>
+                                    <div class="feature-desc">救災結束後，箱子既可以當寵物運輸箱，也可以帶回家折疊成嬰兒床給寵物當一個永久的家</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- 產品 4 -->
+            <div class="product-section" id="prod-suzhou2">
+                <div class="product-header">
+                    <h3 class="product-title">小憩一隅</h3>
+                    <div class="product-subtitle">單一元件組裝成百變避難家具</div>
+                </div>
+                <!-- Carousel Container -->
+                <!-- Carousel Container -->
+                <div class="product-image-container" id="carousel-suzhou2">
+                    <img src="Pic/prod_suzhou2.jpg" alt="模組化家具產品圖 (素描)" class="product-image">
+                    <img src="Pic/prod_suzhou2_real.jpg" alt="模組化家具實體圖" class="product-image real-photo">
+                </div>
+
+                <div class="card">
+                    <div class="info-grid">
+                        <div>
+                            <span class="info-label">設計師</span>
+                            <div class="info-content">宋永波、王建、嵇磊磊、黃榮凱</div>
+                        </div>
+                        <div>
+                            <span class="info-label">現況問題</span>
+
+                            <div class="info-content" style="white-space: normal;">
+                                <ol style="padding-left: 20px; margin: 0;">
+                                    <li style="margin-bottom: 4px;">
+                                        <strong>缺少休息設施：</strong>受災群眾休息時，若直接躺地面上，易受冷生病，且地面灰塵多，難以保持乾淨，同時在人員走動時，易發生踩踏等安全問題；而席地而坐，易產生疲勞，出現久坐後起立困難等問題。
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <strong>缺乏舒適性：</strong>現有的避難床採用硬質塑膠材料，舒適性有所欠缺。
+                                    </li>
+                                    <li style="margin-bottom: 4px;">
+                                        <strong>產品功能性單一性：</strong>現用的凳子、床功能性單一，缺乏不同時段、不同需求的可變性。
+                                    </li>
+                                    <li>
+                                        <strong>成本高、生產週期長：</strong>單一功能避難家具生產成本高、生產週期長，需要一定備貨量，缺乏緊急應變能力。
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="info-label">設計特點</span>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <div class="feature-title">特點1 可變性</div>
+                                    <div class="feature-desc">凳、桌、床等形態可隨意轉換。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點2 一般性</div>
+                                    <div class="feature-desc">969*380mm的BC楞紙，符合包裝廠常備紙規格。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點3 舒適性</div>
+                                    <div class="feature-desc">BC楞紙具有一定的可壓縮性，舒適性較好。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點4 週期短</div>
+                                    <div class="feature-desc">製版→紮盒，生產週期短。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點5 成本低</div>
+                                    <div class="feature-desc">全紙、單一結構，成本低。</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點6 應用廣</div>
+                                    <div class="feature-desc">可用作辦公、用餐、睡覺、輔助支撐等。</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="back-nav" style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="backToVote()">前往投票</button>
+            </div>
+        </div>
 
         <div id="page-vote" class="page active">
             <h1>「打包一個家」防災臨時生活創新設計</h1>
@@ -497,6 +997,7 @@
                 </div>
             </div>
             <button class="btn" onclick="goStep2()">下一步：填寫回饋</button>
+            <button class="btn btn-outline" onclick="viewProductIntros()">看四個產品簡介</button>
 
             <hr class="divider">
 
@@ -964,6 +1465,199 @@
             document.getElementById("m-text").innerText = item.content;
             document.getElementById("modal").classList.add("show");
         }
+
+        // --- Navigation & Routing ---
+
+        // 1. Core View Logic (DOM Manipulation)
+        function renderProductPage() {
+            // Prevent re-rendering if already matching (optional optimization, but safe to repeat)
+            if (document.getElementById("page-products").classList.contains("active")) return;
+
+            document.getElementById("page-vote").classList.remove("active");
+            document.getElementById("page-products").classList.add("active");
+            window.scrollTo(0, 0);
+            startAutoCycle();
+        }
+
+        function renderVotePage() {
+            if (document.getElementById("page-vote").classList.contains("active")) return;
+
+            document.getElementById("page-products").classList.remove("active");
+            document.getElementById("page-vote").classList.add("active");
+            window.scrollTo(0, 0);
+            stopAutoCycle();
+        }
+
+        // 2. Event Handlers (Click -> URL Update)
+        function viewProductIntros() {
+            window.location.hash = "products";
+        }
+
+        function backToVote() {
+            // Use pushState to remove hash cleanly, or just set to empty
+            // Setting hash to '' leaves a # usually. 
+            // Let's plain set hash to empty string for simplicity in typical static sites.
+            window.location.hash = "";
+
+            // Note: setting hash='' triggers hashchange event in most modern browsers.
+            // If we want to remove the '#' entirely from URL bar:
+            if (history.pushState) {
+                history.pushState(null, null, window.location.pathname + window.location.search);
+                // pushState does NOT trigger hashchange, so we must call handler manually
+                handleRouting();
+            }
+        }
+
+        // 3. Router
+        function handleRouting() {
+            const hash = window.location.hash;
+            if (hash === "#products") {
+                renderProductPage();
+            } else {
+                renderVotePage(); // Default to vote page
+            }
+        }
+
+        // 4. Initialization
+        window.addEventListener("hashchange", handleRouting);
+        window.addEventListener("load", handleRouting);
+
+        // Auto-cycle Logic
+        let productIntervals = [];
+
+        function startAutoCycle() {
+            // Clear any existing to be safe
+            stopAutoCycle();
+
+            // Only run on mobile/tablet (width < 900px) users preferred behavior
+            // But the user asked for this feature specifically for "Phone state".
+            // We can just run it generally or check width. 
+            // Let's check width to avoid annoying desktop users who have hover.
+            if (window.innerWidth >= 900) return;
+
+            const containers = document.querySelectorAll('.product-image-container');
+
+            containers.forEach((container) => {
+                // Function to toggle class
+                const toggleImage = () => {
+                    container.classList.toggle('show-real');
+                };
+
+                // Start interval
+                const intervalId = setInterval(toggleImage, 5000);
+                productIntervals.push(intervalId);
+
+                // Interaction Handlers
+                // 1. Click to toggle
+                container.onclick = (e) => {
+                    // Prevent default behaviors if mixed with touch
+                    toggleImage();
+                    // Reset interval on manual interaction
+                    clearInterval(intervalId);
+                    // We can't easily restart specific interval inside loop unless we track it
+                    // Simplified: Just toggle. The interval is running separately.
+                    // Better: Restart this specific interval
+                };
+
+                // 2. Long Press / Touch Pause
+                // On touch start, clear interval (Pause)
+                container.ontouchstart = () => {
+                    clearInterval(intervalId);
+                };
+
+                // On touch end, resume interval
+                // Note: This logic might get tricky if we need to persist the SAME interval variable reference
+                // Let's use a more robust approach below
+            });
+
+            // Revised robust approach
+            setupMobileInteractions();
+        }
+
+        function stopAutoCycle() {
+            productIntervals.forEach(clearInterval);
+            productIntervals = [];
+            // Also remove class to reset
+            document.querySelectorAll('.product-image-container').forEach(c => c.classList.remove('show-real'));
+        }
+
+        function setupMobileInteractions() {
+            const containers = document.querySelectorAll('.product-image-container');
+
+            containers.forEach(container => {
+                let localInterval;
+
+                const startLocalTimer = () => {
+                    clearInterval(localInterval);
+                    localInterval = setInterval(() => {
+                        container.classList.toggle('show-real');
+                    }, 5000);
+                    productIntervals.push(localInterval);
+                }
+
+                // Start initially
+                startLocalTimer();
+
+                // Click: Toggle immediately
+                // Use touchend for mobile to avoid 300ms delay, but click is safer for conflict with scroll
+                container.onclick = (e) => {
+                    container.classList.toggle('show-real');
+                    // Reset timer so it doesn't switch right after user clicked
+                    startLocalTimer();
+                };
+
+                // Touch Start: Pause (Clear Timer)
+                container.ontouchstart = () => {
+                    clearInterval(localInterval);
+                };
+
+                // Touch End: Resume (Start Timer)
+                // Note: click fires after touchend. 
+                // Logic flow: touchstart (pause) -> touchend (resume) -> click (toggle + reset)
+                container.ontouchend = () => {
+                    // We don't need to start here immediately because click will fire next and restart it?
+                    // Wait, if it's a LONG press, click might NOT fire or we want it to hold.
+                    // If long press, we pause. When release (touchend), we should resume.
+                    startLocalTimer();
+                };
+            });
+        }
+
+        // Carousel Functions
+        function moveCarousel(id, direction) {
+            const container = document.getElementById('carousel-' + id);
+            const images = container.getElementsByClassName('product-image');
+            const dots = container.getElementsByClassName('carousel-dot');
+            let activeIndex = 0;
+
+            for (let i = 0; i < images.length; i++) {
+                if (images[i].classList.contains('active')) {
+                    activeIndex = i;
+                    break;
+                }
+            }
+
+            let newIndex = activeIndex + direction;
+            if (newIndex < 0) newIndex = images.length - 1;
+            if (newIndex >= images.length) newIndex = 0;
+
+            setCarousel(id, newIndex);
+        }
+
+        function setCarousel(id, index) {
+            const container = document.getElementById('carousel-' + id);
+            const images = container.getElementsByClassName('product-image');
+            const dots = container.getElementsByClassName('carousel-dot');
+
+            for (let i = 0; i < images.length; i++) {
+                images[i].classList.remove('active');
+                if (dots[i]) dots[i].classList.remove('active');
+            }
+
+            images[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
+        }
+
         function closeModal() { document.getElementById("modal").classList.remove("show"); }
     </script>
 
