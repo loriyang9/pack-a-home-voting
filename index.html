@@ -77,6 +77,12 @@
             margin-right: auto;
         }
 
+        #page-products>.intro-text {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .card {
             background: var(--card);
             padding: 24px;
@@ -674,8 +680,8 @@
 
     <div class="container">
 
-        <!-- 產品介紹頁 (預設隱藏) -->
-        <div id="page-products" class="page">
+        <!-- 產品介紹頁 (預設顯示) -->
+        <div id="page-products" class="page active">
             <div class="back-nav">
                 <button class="btn btn-outline" onclick="backToVote()" style="width: auto; padding: 8px 16px;">
                     ← 前往投票
@@ -685,6 +691,8 @@
             <!-- 復刻首頁標題區 -->
             <h1>「打包一個家」防災臨時生活創新設計</h1>
             <div class="intro-text" style="text-align: center;">
+                <p>「打包一個家」是富迪印刷自2022啟動的永續計畫，運用集團包裝結構設計與材質創新的實力，投入於具永續價值的社會議題中。今年我們的設計團隊與製造生產線，正在協助災後避難收容過程中，能有更安全、安心、易用的安置工具。
+                </p>
                 <p>請參觀本屆參選的四項作品，試想在緊急災難時刻，你會希望避難時能使用到哪項作品呢？</p>
             </div>
 
@@ -693,7 +701,7 @@
             <!-- 產品 1 -->
             <div class="product-section" id="prod-taipei1">
                 <div class="product-header">
-                    <h3 class="product-title">助眠罩</h3>
+                    <h3 class="product-title">暫息｜避光休息罩</h3>
                     <div class="product-subtitle">避難時的遮光好眠設計</div>
                 </div>
                 <!-- Carousel Container -->
@@ -714,10 +722,10 @@
                             <span class="info-label">現況問題</span>
                             <div class="info-content" style="white-space: normal;">
                                 <ol style="padding-left: 20px; margin: 0;">
-                                    <li>高敏人在睡眠時需要密閉且完全遮蔽光線的空間</li>
-                                    <li>睡眠時的隱密性</li>
-                                    <li>光線太強影響休息</li>
-                                    <li>可調節光線強弱</li>
+                                    <li>現行的大型臨時收容所（如體育館）多為開放式空間，基於安全考量往往燈火通明且人聲嘈雜，經歷巨變後的人們常伴隨悲傷與焦慮，持續的感官刺激，對高敏感族群易產生睡眠剝奪與精神壓力，如何提供「隱私與安寧睡眠」仍是挑戰
+                                    </li>
+                                    <li>現有的隱私方案（如大型帳篷、隔屏）會佔用較大的公共空間，不適用於擁擠或中小型避難所</li>
+
                                 </ol>
                             </div>
                         </div>
@@ -725,16 +733,16 @@
                             <span class="info-label">設計特點</span>
                             <ul class="feature-list">
                                 <li class="feature-item">
-                                    <div class="feature-title">特點1 手提把</div>
-                                    <div class="feature-desc">可使用左右兩側提把移動，不使用時可以將紙板蓋上遮擋光線。</div>
+                                    <div class="feature-title">特點1 免工具快組</div>
+                                    <div class="feature-desc">可透過直覺的卡扣設計，免工具迅速組裝</div>
                                 </li>
                                 <li class="feature-item">
                                     <div class="feature-title">特點2 透氣孔</div>
-                                    <div class="feature-desc">後側透氣孔可依照喜好需求掀開，始內部透氣。</div>
+                                    <div class="feature-desc">後側透氣孔可依照喜好需求掀開，使內部透氣。</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點3 牛皮紙遮光罩</div>
-                                    <div class="feature-desc">上蓋使用牛皮紙材質，達到輕量化，輕鬆掀開坐起身或躺下動作。</div>
+                                    <div class="feature-title">特點3 個人化光線與通風調節</div>
+                                    <div class="feature-desc">打造防呆光線調節結構，使用者可由內部自由控制光線強弱</div>
                                 </li>
                                 <li class="feature-item">
                                     <div class="feature-title">特點4 光線調節</div>
@@ -742,10 +750,18 @@
                                 </li>
                                 <li class="feature-item">
                                     <div class="feature-title">特點5 隱密舒適無壓迫感</div>
-                                    <div class="feature-desc">依照人體工學量測設計，提供高敏人或對光線敏感者一個舒適的休息空間。</div>
+                                    <div class="feature-desc">依照人體工學量測設計，輕鬆掀開坐起身或躺下動作。</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點6 攤平運輸</div>
+                                    <div class="feature-title">特點6 建立非語言溝通</div>
+                                    <div class="feature-desc">「狀態卡片」系統，讓使用者無需開口即可向外界傳達「需要降低音量」或「需要關懷」的身心狀態，降低人際干擾</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點7 多工收納</div>
+                                    <div class="feature-desc">兩側設有隱藏式提把方便移動，白天可作為私人物品與棉被的收納空間，夜晚則化身私人睡眠艙</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">特點8 攤平運輸</div>
                                     <div class="feature-desc">壓線設計，讓整個產品可以攤平，利於存放和運輸。</div>
                                 </li>
                             </ul>
@@ -759,8 +775,8 @@
             <!-- 產品 2 -->
             <div class="product-section" id="prod-taipei2">
                 <div class="product-header">
-                    <h3 class="product-title">靜心屏</h3>
-                    <div class="product-subtitle">在緊急避難環境劃出一隅私人空間</div>
+                    <h3 class="product-title">靜心屏｜在不安中恢復平靜</h3>
+                    <div class="product-subtitle">避難所用多功能模組化隱私隔屏</div>
                 </div>
                 <!-- Carousel Container -->
                 <!-- Carousel Container -->
@@ -779,10 +795,11 @@
                             <span class="info-label">現況問題</span>
                             <div class="info-content" style="white-space: normal;">
                                 <ol style="padding-left: 20px; margin: 0;">
-                                    <li>毫無隱私：臨時安置的開放式空間無法滿足更衣、哺乳與個人生理行為所需的基本遮蔽，影響使用者的尊嚴與身體舒適度，亦可能使人因被迫暴露於他人視線中而產生壓力、焦慮或自我壓抑的行為。
+                                    <li>氣候變遷使天災增加，災後安置成為重要課題。在臨時收容階段，避難所多為開放空間。然而，即便是普通民眾，在更衣、哺乳或長輩照護等時刻，都面臨需要完全隱蔽空間的基本需求。
                                     </li>
-                                    <li>心神不寧：高密度共處與持續的感官刺激，使部分使用者（包含一般大眾與心智障礙者）難以調節情緒，迫切需要一個可短暫獨處、穩定心理狀態的個人空間。</li>
-                                    <li>恐慌蔓延：當民眾因突發刺激在開放安置空間中出現情緒失控行為時，缺乏即時安撫與隔離空間，容易使不安情緒暴露並擴散，影響周遭民眾的心理安全與整體空間秩序。</li>
+                                    <li>這種對隱蔽空間的需求，更延伸至特殊族群的心理照護。經歷創傷的災民或心智障礙者，在嘈雜環境中容易產生感官過載，亟需一個能阻絕外界視線的安靜角落，作為緩和情緒的空間。
+                                    </li>
+                                    <li>現有的隱私設備（如大型帳篷）屬於尺寸固定的產品，佔用固定面積，無法因應收容所現場的變動狀況彈性調整，同時也難以高密度備災儲存。</li>
                                 </ol>
                             </div>
                         </div>
@@ -790,28 +807,29 @@
                             <span class="info-label">設計特點</span>
                             <ul class="feature-list">
                                 <li class="feature-item">
-                                    <div class="feature-title">特點1 全遮擋</div>
-                                    <div class="feature-desc">阻擋極大部分縫隙</div>
+                                    <div class="feature-title">特點1 模組化空間</div>
+                                    <div class="feature-desc">透過標準化的牆板、柱子與天花板，可依現場需求彈性拼接成更衣室或單人臥房</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點2 多元組合</div>
-                                    <div class="feature-desc">依照想要組裝的尺寸自由拼接</div>
+                                    <div class="feature-title">特點2 攤平收納</div>
+                                    <div class="feature-desc">所有零件皆可攤平運輸，便於高密度儲存</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點3 攤平收納</div>
-                                    <div class="feature-desc">每個零件皆可攤平收納</div>
+                                    <div class="feature-title">特點3 可替換部件</div>
+                                    <div class="feature-desc">若單一部件損壞可獨立更換，無需報廢整體結構</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點4 快速組裝</div>
-                                    <div class="feature-desc">在熟悉操作後可以在短時間內組裝完成</div>
+                                    <div class="feature-title">特點4 天花板</div>
+                                    <div class="feature-desc">採縫隙式設計，能保持通風同時避免外部直視內部空間</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點5 紙卡扣鎖的門</div>
-                                    <div class="feature-desc">防呆設計僅能從內部上鎖</div>
+                                    <div class="feature-title">特點5 擴充配件門片</div>
+                                    <div class="feature-desc">門片具備紙卡扣鎖設計，可由內側上鎖提供安全感</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點6 天花板</div>
-                                    <div class="feature-desc">可調整透光度的天花板</div>
+                                    <div class="feature-title">特點6 療癒心理空間</div>
+                                    <div class="feature-desc">搭配情緒調節卡牌，引導人們透過具體的身體動作穩定情緒，加上療癒互動牆面，增加避難場域中的人際連結與心理支持
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -825,7 +843,7 @@
             <div class="product-section" id="prod-suzhou1">
                 <div class="product-header">
                     <h3 class="product-title">緊急避難應變嬰兒床</h3>
-                    <div class="product-subtitle">孩童與毛孩避難時的安心角落</div>
+                    <div class="product-subtitle">可轉換式嬰幼兒與小型寵物防災箱</div>
                 </div>
                 <!-- Carousel Container -->
                 <!-- Carousel Container -->
@@ -844,9 +862,10 @@
                             <span class="info-label">現況問題</span>
                             <div class="info-content" style="white-space: normal;">
                                 <ol style="padding-left: 20px; margin: 0;">
-                                    <li>帶著嬰兒和毛孩的家長不知道如何安置嬰兒和寵物</li>
-                                    <li>救援運輸紙箱，到現場後，一般都是廢紙，如何再利用給嬰兒和毛孩使用。</li>
-                                    <li>嬰兒安置的嬰兒床和寵物臨時安置籠子如何簡單快速成型</li>
+                                    <li>在「毛孩家人化」趨勢下，現代家庭除了為年幼成員預備防災物資，也必須考量寵物需求。</li>
+                                    <li>現有收容所設備多為成人設計，嬰幼兒缺乏專屬的安全睡眠空間</li>
+                                    <li>收容所缺乏妥善的寵物隔離工具，極易引發人寵衝突與衛生隱憂</li>
+                                    <li>若救災單位分別採購嬰兒床與寵物籠，不僅將造成龐大的後勤負擔，單一用途設備在災後即遭廢棄更違背 SDGs 永續目標。</li>
                                 </ol>
                             </div>
                         </div>
@@ -854,33 +873,23 @@
                             <span class="info-label">設計特點</span>
                             <ul class="feature-list">
                                 <li class="feature-item">
-                                    <div class="feature-title">特點1 運輸箱</div>
+                                    <div class="feature-title">特點1 穩固平整的物資儲放箱</div>
                                     <div class="feature-desc">
-                                        尺寸700*500*400mm，全封閉運輸箱，可以整合嬰兒短期需要的用品和食物。可以運輸其他用品。箱子2邊有手提孔可以拆開，雙手更好的搬運箱子</div>
+                                        平時可作為家庭的防災預備箱或社區的物資儲備箱，極大化倉儲堆疊與物流運輸的效率。</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點2 150mm嬰兒床</div>
-                                    <div class="feature-desc">
-                                        箱子裡面的折疊墊輕鬆打開後，墊在下面將床抬高150mm，阻斷了地面的髒汙直接接觸嬰兒。嬰兒床兩邊也有兩個新的把手，當床的時候也很好拿取</div>
+                                    <div class="feature-title">特點2 免工具高承重嬰幼兒床</div>
+                                    <div class="feature-desc">抵達安置點後，免工具即可在數分鐘內變身為耐重高達 150kg
+                                        的嬰兒床，嬰兒床具備兩種形式可依使用需求切換，內附折疊床墊採平鋪出貨，不佔運輸空間</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點3 0mm嬰兒床</div>
-                                    <div class="feature-desc">將折疊墊拿出來，再把紙板往裡對折行成新的無高度嬰兒床-特點是：還保留150mm高度側面，保護嬰兒睡著後不會翻滾出來
+                                    <div class="feature-title">特點3 安撫玩具</div>
+                                    <div class="feature-desc">取下的透氣孔洞紙板可轉化為嬰兒床上的玩具掛飾，安撫嬰兒情緒
                                     </div>
                                 </li>
                                 <li class="feature-item">
                                     <div class="feature-title">特點4 寵物臨時安置籠</div>
-                                    <div class="feature-desc">將箱子的5個帶孔卡片往裡一按，就會出現5個透氣孔，箱子2邊有卡扣，可以卡住10kg以內的動物臨時不能跑出來
-                                    </div>
-                                </li>
-                                <li class="feature-item">
-                                    <div class="feature-title">特點5 嬰兒臨時玩具</div>
-                                    <div class="feature-desc">箱子的5個透氣孔的卡片掉下來後，可以用繩子串起來掛在嬰兒床上當轉移視線的玩具。卡片形狀各異，有小熊小貓小狗等
-                                    </div>
-                                </li>
-                                <li class="feature-item">
-                                    <div class="feature-title">特點6 救災結束後當寵物窩</div>
-                                    <div class="feature-desc">救災結束後，箱子既可以當寵物運輸箱，也可以帶回家折疊成嬰兒床給寵物當一個永久的家</div>
+                                    <div class="feature-desc">將箱子的5個帶孔卡片往裡一按，就會出現5個透氣孔，箱子2邊有卡扣，可以安置10kg以內的動物 </div>
                                 </li>
                             </ul>
                         </div>
@@ -893,7 +902,7 @@
             <!-- 產品 4 -->
             <div class="product-section" id="prod-suzhou2">
                 <div class="product-header">
-                    <h3 class="product-title">小憩一隅</h3>
+                    <h3 class="product-title">一片應萬變</h3>
                     <div class="product-subtitle">單一元件組裝成百變避難家具</div>
                 </div>
                 <!-- Carousel Container -->
@@ -907,25 +916,20 @@
                     <div class="info-grid">
                         <div>
                             <span class="info-label">設計師</span>
-                            <div class="info-content">宋永波、王建、嵇磊磊、黃榮凱</div>
+                            <div class="info-content">宋永波、王建、嵇磊磊</div>
                         </div>
                         <div>
                             <span class="info-label">現況問題</span>
 
                             <div class="info-content" style="white-space: normal;">
                                 <ol style="padding-left: 20px; margin: 0;">
+                                    <li style="margin-bottom: 4px;">現有的收容設備與物流面臨嚴峻挑戰：傳統設備（如塑膠床、金屬椅）體積龐大、生產週期長，耗費珍貴的運輸量能
+                                    </li>
+                                    <li style="margin-bottom: 4px;">傳統紙箱床則因零件繁雜，在人手短缺的災區極易造成組裝混亂</li>
                                     <li style="margin-bottom: 4px;">
-                                        <strong>缺少休息設施：</strong>受災群眾休息時，若直接躺地面上，易受冷生病，且地面灰塵多，難以保持乾淨，同時在人員走動時，易發生踩踏等安全問題；而席地而坐，易產生疲勞，出現久坐後起立困難等問題。
+                                        <strong>產品功能性單一性：</strong>現用的凳子、床功能性單一，缺乏不同時段、不同需求的可變性
                                     </li>
-                                    <li style="margin-bottom: 4px;">
-                                        <strong>缺乏舒適性：</strong>現有的避難床採用硬質塑膠材料，舒適性有所欠缺。
-                                    </li>
-                                    <li style="margin-bottom: 4px;">
-                                        <strong>產品功能性單一性：</strong>現用的凳子、床功能性單一，缺乏不同時段、不同需求的可變性。
-                                    </li>
-                                    <li>
-                                        <strong>成本高、生產週期長：</strong>單一功能避難家具生產成本高、生產週期長，需要一定備貨量，缺乏緊急應變能力。
-                                    </li>
+
                                 </ol>
                             </div>
                         </div>
@@ -933,28 +937,30 @@
                             <span class="info-label">設計特點</span>
                             <ul class="feature-list">
                                 <li class="feature-item">
-                                    <div class="feature-title">特點1 可變性</div>
-                                    <div class="feature-desc">凳、桌、床等形態可隨意轉換。</div>
+                                    <div class="feature-title">特點1 單一刀模紙板元件設計</div>
+                                    <div class="feature-desc">全數由單一刀模裁切的相同紙板元件構成，組裝步驟簡單易上手。</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點2 一般性</div>
-                                    <div class="feature-desc">969*380mm的BC楞紙，符合包裝廠常備紙規格。</div>
+                                    <div class="feature-title">特點2 彈性變化</div>
+                                    <div class="feature-desc">透過結構設計，可根據需求，靈活變換組合為凳子、桌子、床鋪與床頭支撐桌。</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點3 舒適性</div>
-                                    <div class="feature-desc">BC楞紙具有一定的可壓縮性，舒適性較好。</div>
+                                    <div class="feature-title">特點3 使用者引導</div>
+                                    <div class="feature-desc">透過印刷設計降低錯誤組裝的機率，藉由融入連連看的遊戲巧思，增加產品的趣味性增進互動</div>
                                 </li>
                                 <li class="feature-item">
-                                    <div class="feature-title">特點4 週期短</div>
-                                    <div class="feature-desc">製版→紮盒，生產週期短。</div>
+                                    <div class="feature-title">特點4 兼具耐重與舒適</div>
+                                    <div class="feature-desc">
+                                        單體凳子(僅1.12kg)即可耐重達200公斤。BC楞瓦楞材質提供平整且具緩衝的表面，帶來比塑膠床更舒適柔和的躺臥體驗。</div>
                                 </li>
                                 <li class="feature-item">
                                     <div class="feature-title">特點5 成本低</div>
-                                    <div class="feature-desc">全紙、單一結構，成本低。</div>
+                                    <div class="feature-desc">生產僅需模切與印刷兩步驟，大幅降低生產、物流運輸與倉儲成本。</div>
                                 </li>
                                 <li class="feature-item">
                                     <div class="feature-title">特點6 應用廣</div>
-                                    <div class="feature-desc">可用作辦公、用餐、睡覺、輔助支撐等。</div>
+                                    <div class="feature-desc">在災後復原期或非災難時期，這些模組化家具可重新組合為一般家庭的茶几、臨時辦公桌等形式，大幅延長產品的使用週期與價值。
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -967,12 +973,9 @@
             </div>
         </div>
 
-        <div id="page-vote" class="page active">
+        <div id="page-vote" class="page">
             <h1>「打包一個家」防災臨時生活創新設計</h1>
             <div class="intro-text">
-                <p>
-                    「打包一個家」是富迪印刷自2022啟動的永續計畫，運用集團包裝結構設計與材質創新的實力，投入於具永續價值的社會議題中。今年我們的設計團隊與製造生產線，正在協助災後避難收容過程中，能有更安全、安心、易用的安置工具。
-                </p>
                 <p>我們相信跨領域的協作始能激發創新，因此在這個階段，期待能邀請你成為產品測試的一員，藉由你的自身經驗協助團隊了解使用者對於目前產品的觀點。</p>
             </div>
             <div class="card">
@@ -992,7 +995,7 @@
                     </label>
                     <label class="work-item" onclick="toggleStyle(this)">
                         <input type="checkbox" name="work" value="Suzhou2">
-                        <span>模組化避難家具：單一元件組裝成百變家具</span>
+                        <span>一片應萬變：單一元件組裝成百變家具</span>
                     </label>
                 </div>
             </div>
@@ -1045,7 +1048,7 @@
                     <option value="Taipei1">助眠罩：避難時的遮光好眠設計</option>
                     <option value="Taipei2">靜心屏：在緊急避難環境劃出一隅私人空間</option>
                     <option value="Suzhou1">緊急避難應變嬰兒床：孩童與毛孩避難時的安心角落</option>
-                    <option value="Suzhou2">模組化避難家具：單一元件組裝成百變家具</option>
+                    <option value="Suzhou2">一片應萬變：單一元件組裝成百變家具</option>
                 </select>
 
                 <label>我想告訴設計團隊...</label>
@@ -1083,7 +1086,7 @@
             "Taipei1": "助眠罩",
             "Taipei2": "靜心屏",
             "Suzhou1": "避難嬰兒床",
-            "Suzhou2": "模組化避難家具"
+            "Suzhou2": "一片應萬變"
         };
 
         // API 請求封裝：確保 HTTP 成功且 JSON result 為 success
@@ -1490,31 +1493,24 @@
 
         // 2. Event Handlers (Click -> URL Update)
         function viewProductIntros() {
-            window.location.hash = "products";
+            window.location.hash = "";
+            if (history.pushState) {
+                history.pushState(null, null, window.location.pathname + window.location.search);
+                handleRouting();
+            }
         }
 
         function backToVote() {
-            // Use pushState to remove hash cleanly, or just set to empty
-            // Setting hash to '' leaves a # usually. 
-            // Let's plain set hash to empty string for simplicity in typical static sites.
-            window.location.hash = "";
-
-            // Note: setting hash='' triggers hashchange event in most modern browsers.
-            // If we want to remove the '#' entirely from URL bar:
-            if (history.pushState) {
-                history.pushState(null, null, window.location.pathname + window.location.search);
-                // pushState does NOT trigger hashchange, so we must call handler manually
-                handleRouting();
-            }
+            window.location.hash = "voting";
         }
 
         // 3. Router
         function handleRouting() {
             const hash = window.location.hash;
-            if (hash === "#products") {
-                renderProductPage();
+            if (hash === "#voting") {
+                renderVotePage();
             } else {
-                renderVotePage(); // Default to vote page
+                renderProductPage(); // Default to products page
             }
         }
 
